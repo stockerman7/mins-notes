@@ -1,6 +1,7 @@
 import { NOTE_FRAGMENT } from "./fragments";
 import { GET_NOTES } from "./queries";
 
+// graphql 기본적인 구성
 export const defaults = {
 	notes: [
 		{
@@ -11,6 +12,7 @@ export const defaults = {
 		},
 	],
 };
+// schema, query, mutation type 정의
 export const typeDefs = [
 	`
     schema {
@@ -32,6 +34,7 @@ export const typeDefs = [
     }
     `,
 ];
+
 export const resolvers = {
 	note: (_, variables, { cache, getCacheKey }) => {
 		const id = cache.config.dataIdFromObject({

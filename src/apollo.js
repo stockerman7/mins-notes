@@ -19,4 +19,5 @@ const client = new ApolloClient({
 	link: ApolloLink.from([stateLink]),
 });
 
+// default 키워드와 함께 export한 모듈은 {} 없이 임의의 이름으로 import한다.
 export default client;
