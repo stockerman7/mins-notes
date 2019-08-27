@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 // 라우딩 설정 -> 브라우저 뒤로, 앞으로가기 등 url:[history, location] 과 같은 경로 설정
 import { BrowserRouter, Switch, Route } from "react-router-dom";
+// Routes
 import Notes from "../../Routes/Notes";
 import Note from "../../Routes/Note";
 import Edit from "../../Routes/Edit";
