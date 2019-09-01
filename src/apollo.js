@@ -21,7 +21,7 @@ const stateLink = withClientState({
 // 흔히 apollo-boost 를 이용해 GraphQL 서버의 엔드 포인트(즉, 서버측 URL 주소)를 연결한다. 그러나 여기선 cache(로컬)가 엔드 포인트가 된다.
 // 그리고 대화할 서버 측으로 client 정보를 넘긴다. -> export default client;
 const client = new ApolloClient({
-	//  여기서는 캐시, 링크 정보를 연동한다.
+	//  캐시, 링크 정보를 연동 -> 반드시 ApolloClient 생성자로 전달
 	cache,
 	link: ApolloLink.from([stateLink]),
 });

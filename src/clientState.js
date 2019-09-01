@@ -34,20 +34,24 @@ export const typeDefs = [
 // 동일한 Query를 로컬, 서버에 동시 요청할 수도 있다.
 export const resolvers = {
 	note: (_, variables, { cache, getCacheKey }) => {
+		// dataIdFromObject은 고유 식별자에 대한 'getter' 동작이다.(수동으로 사용자 지정)
+		// 예를들어 같은 ID가 다른 타입에도 존재할 경우 구분을 위해 __typename을 포함시킬 수 있음
 		const id = cache.config.dataIdFromObject({
 			__typename: "Note",
 			id: variables.id,
 		});
-		// 재사용 가능한 fragment 요소를 사용해 캐시를 읽는다.
-		const note = cache.readFragment({ fragment: NOTE_FRAGMENT, id });
+		// readQuery VS readFragment
+		// readQuery는 root 쿼리 유형의 데이터만 읽기가 가능하지만
+		// 'readFrangment' 는 모든 노드의 데이터를 읽는다.(캐시 데이터 유연성을 향상, 없으면 null 반환)
+		const note = cache.readFragment({ fragment: NOTE_FRAGMENT, id }); // id 는 dataIdFromObject 함수가 반환 한 값
 		return note;
 	},
 	Mutation: {
 		// 노트 생성, 여기서 variables는 Query가 호출된 변수를 포함하는 객체다.
 		// createNote 는 { title, content } 두개의 객체를 받는다.
 		createNote: (_, variables, { cache }) => {
-			// readQuery, readFragment의 차이는 재사용 여부에 있다. 여기선 최초로 생성하는 것이기 때문에 readQuery를 사용한다.
-			// 생성 이후 readFragment 를 사용해 재사용한다.
+			// readQuery 는 캐시 데이터를 Query 한다(캐시 읽기, root 쿼리 유형의 데이터만, 없으면 오류 발생)
+			// 이것은 다른말로 GraphQL 서버에는 요청하지 않는다. 읽은 데이터는 Query 형태로 반환됨
 			const { notes } = cache.readQuery({ query: GET_NOTES });
 			const { title, content } = variables;
 			const newNote = {
